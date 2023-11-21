@@ -1,5 +1,34 @@
 from PyQt6 import QtWidgets, uic,QtGui, QtCore
 import sys
+import pyodbc
+
+#connecting the database below
+server="LAPTOP-4OMLOR40"
+database="AnimeManagement"
+use_windows_authentication=True
+username=""
+password=""
+
+
+if use_windows_authentication:
+    connection_string=f"DRIVER={{ODBC Driver 17 for SQL Server}};SERVER={server};DATABASE={database};Trusted_Connection=yes;"
+else:
+   connection_string= f"Driver={{ODBC Driver 17 for SQL Server}};SERVER={server};DATABASE={database};UID={username};PWD={password}"
+
+
+
+connection=pyodbc.connect(connection_string)
+
+cursor=connection.cursor()
+#cursor.execute("select * from Anime")
+
+# rows=cursor.fetchall()
+
+# for row in rows:
+#     print(row)
+
+
+
 
 
 class UI(QtWidgets.QMainWindow):
@@ -16,12 +45,26 @@ class UI(QtWidgets.QMainWindow):
         self.home_screen=QtWidgets.QMainWindow() #window is initialized to none in the init function
         uic.loadUi("HOME.ui",self.home_screen)
         self.home_screen.show()
-        self.home_screen.pushButton_5.clicked.connect(self.after_clicking_updates) #when the updates button is clicked on the screen
+        self.home_screen.pushButton_5.clicked.connect(self.after_clicking_updates) #when the updates button is clicked on the screen'
+        self.home_screen.pushButton.clicked.connect(self.search_by_name)
+            
+
 
     def after_clicking_updates(self): # shows the updates screen
         self.update_screen=QtWidgets.QMainWindow()
         uic.loadUi("Updates.ui",self.update_screen)
         self.update_screen.show()
+
+    def search_by_name(self): #for searching through the name in the HOME screen ui
+        name=self.home_screen.lineEdit.text()
+        #print(name)
+        cursor.execute(f"select * from Series where SeriesName='{name}'")
+        rows=cursor.fetchall()
+        for row in rows:
+            print(row)
+
+
+
 
 
 
