@@ -34,10 +34,11 @@ cursor=connection.cursor()
 class UI(QtWidgets.QMainWindow):
     def __init__(self):
         super(UI,self).__init__()
-        uic.loadUi("Account Details.ui",self) #will show the login screen
+        uic.loadUi("Login.ui",self) #will show the login screen
         self.show() 
         self.home_screen=None #need to intialize this window, else the other screen disappears very quickly
         self.update_screen=None #initializing the window
+        self.logout_screen=None #same screen as that of account details, when one logs out
         self.Login_Button.clicked.connect(self.after_logging_in)
         
 
@@ -47,6 +48,7 @@ class UI(QtWidgets.QMainWindow):
         self.home_screen.show()
         self.home_screen.pushButton_5.clicked.connect(self.after_clicking_updates) #when the updates button is clicked on the screen'
         self.home_screen.pushButton.clicked.connect(self.search_by_name)
+        self.home_screen.pushButton_3.clicked.connect(self.show_login_screen)
             
 
 
@@ -54,6 +56,7 @@ class UI(QtWidgets.QMainWindow):
         self.update_screen=QtWidgets.QMainWindow()
         uic.loadUi("Updates.ui",self.update_screen)
         self.update_screen.show()
+        self.update_screen.pushButton_3.clicked.connect(self.show_login_screen)
 
     def search_by_name(self): #for searching through the name in the HOME screen ui
         name=self.home_screen.lineEdit.text()
@@ -62,6 +65,11 @@ class UI(QtWidgets.QMainWindow):
         rows=cursor.fetchall()
         for row in rows:
             print(row)
+
+    def show_login_screen(self):
+        self.logout_screen=QtWidgets.QMainWindow() #window is initialized to none in the init function
+        uic.loadUi("Login.ui",self.logout_screen)
+        self.logout_screen.show()
 
 
 
