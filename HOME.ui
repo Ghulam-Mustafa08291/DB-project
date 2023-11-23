@@ -18,7 +18,7 @@
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>300</y>
+      <y>240</y>
       <width>93</width>
       <height>28</height>
      </rect>
@@ -59,6 +59,51 @@
       <height>351</height>
      </rect>
     </property>
+    <row>
+     <property name="text">
+      <string/>
+     </property>
+    </row>
+    <row>
+     <property name="text">
+      <string/>
+     </property>
+    </row>
+    <row>
+     <property name="text">
+      <string/>
+     </property>
+    </row>
+    <row>
+     <property name="text">
+      <string/>
+     </property>
+    </row>
+    <row>
+     <property name="text">
+      <string/>
+     </property>
+    </row>
+    <row>
+     <property name="text">
+      <string/>
+     </property>
+    </row>
+    <row>
+     <property name="text">
+      <string/>
+     </property>
+    </row>
+    <row>
+     <property name="text">
+      <string/>
+     </property>
+    </row>
+    <row>
+     <property name="text">
+      <string/>
+     </property>
+    </row>
     <column>
      <property name="text">
       <string>Series Name</string>
@@ -84,24 +129,6 @@
       <string>Status</string>
      </property>
     </column>
-    <column>
-     <property name="text">
-      <string>Link</string>
-     </property>
-    </column>
-   </widget>
-   <widget class="QPushButton" name="pushButton_4">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>230</y>
-      <width>93</width>
-      <height>28</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Favourites</string>
-    </property>
    </widget>
    <widget class="QPushButton" name="pushButton_5">
     <property name="geometry">
@@ -133,13 +160,26 @@
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>370</y>
+      <y>300</y>
       <width>101</width>
       <height>28</height>
      </rect>
     </property>
     <property name="text">
      <string>Account Settings</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_8">
+    <property name="geometry">
+     <rect>
+      <x>320</x>
+      <y>480</y>
+      <width>93</width>
+      <height>28</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>View Details</string>
     </property>
    </widget>
   </widget>
