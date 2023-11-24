@@ -45,6 +45,9 @@ class UI(QtWidgets.QMainWindow):
         self.comments_and_details_screen=None
         self.Login_Button.clicked.connect(self.after_logging_in)
         self.SignUpButton.clicked.connect(self.load_signup_screen)
+        self.Anime_name="" #for storing the anime name being enterd in the home screen
+        
+        
         
         
 
@@ -57,6 +60,8 @@ class UI(QtWidgets.QMainWindow):
         self.home_screen.pushButton_3.clicked.connect(self.show_login_screen)
         self.home_screen.pushButton_6.clicked.connect(self.load_MyContent_screen)
         self.home_screen.pushButton_8.clicked.connect(self.load_Comments_and_details)
+        # self.home_screen.tableWidget.itemSelectionChanged.connect(self.on_item_selected)
+        self.home_screen.pushButton_8.clicked.connect(self.on_item_selected)
         
             
 
@@ -70,16 +75,24 @@ class UI(QtWidgets.QMainWindow):
         self.update_screen.pushButton_8.clicked.connect(self.after_logging_in)
 
     def search_by_name(self): #for searching through the name in the HOME screen ui
-        name=self.home_screen.lineEdit.text()
-        #print(name)
-        cursor.execute(f"select * from Series where SeriesName='{name}'")
-        rows=cursor.fetchall()
+        self.Anime_name=self.home_screen.lineEdit.text()
 
+        cursor.execute( f'''
+        SELECT S.SeriesName, A.AnimeID, M.MangaID, A.EndDate
+        FROM Anime A
+        JOIN Series S ON A.SeriesID = S.SeriesID
+        LEFT JOIN Manga M ON A.SeriesID = M.SeriesID
+        WHERE A.EndDate IS NOT NULL
+        AND S.SeriesName = '{self.Anime_name}'
+''')
+        rows=cursor.fetchall()
         for row in range(len(rows)):
             for j in range(len(rows[row])):
                 item=QTableWidgetItem(str(rows[row][j]))
                 self.home_screen.tableWidget.setItem(row,j,item)
-                print(row)
+               # print(row)
+           
+       
             
 
     def show_login_screen(self):
@@ -92,6 +105,8 @@ class UI(QtWidgets.QMainWindow):
         self.SignUpScreen=QtWidgets.QMainWindow()
         uic.loadUi("SignUp.ui",self.SignUpScreen)
         self.SignUpScreen.show()
+       
+
 
 
     def load_MyContent_screen(self): #loading the fan content screen
@@ -103,6 +118,30 @@ class UI(QtWidgets.QMainWindow):
         self.comments_and_details_screen=QtWidgets.QMainWindow()
         uic.loadUi("Comments.ui",self.comments_and_details_screen)
         self.comments_and_details_screen.show()
+
+    def on_item_selected(self):
+        # Get the selected item(s)
+        selected_items = self.home_screen.tableWidget.selectedItems()
+
+        # Assuming the table has multiple columns, capturing the data based on the column index
+        if selected_items:
+            selected_row = []
+            for item in selected_items:
+                selected_row.append(item.text())  # Get the text of the selected item
+            #print(selected_items)
+            series_name = selected_row[0]  
+            anime_id = selected_row[1] 
+            manga_id = selected_row[2] 
+            publisher_id=cursor.execute(f'''  select PublisherID from Manga where MangaId='{manga_id}' ''').fetchone()
+            print(f"Selected SeriesName: {series_name}, AnimeID: {anime_id}, MangaID: {manga_id}, PublisherID: {publisher_id[0]}")
+            self.comments_and_details_screen.lineEdit.setText(series_name)
+            self.comments_and_details_screen.lineEdit_2.setText(anime_id)
+            self.comments_and_details_screen.lineEdit_3.setText(str(publisher_id[0]))
+            self.comments_and_details_screen.lineEdit_4.setText(manga_id)
+
+            commentstuff=cursor.execute(f''' select * from Comments where AnimeID='{anime_id}' ''').fetchall()
+            for i in commentstuff:
+                print(i[0])
 
 
 
