@@ -138,11 +138,13 @@ class UI(QtWidgets.QMainWindow):
             self.comments_and_details_screen.lineEdit_2.setText(anime_id)
             self.comments_and_details_screen.lineEdit_3.setText(str(publisher_id[0]))
             self.comments_and_details_screen.lineEdit_4.setText(manga_id)
-
-            commentstuff=cursor.execute(f''' select * from Comments where AnimeID='{anime_id}' ''').fetchall()
-            for i in commentstuff:
-                print(i[0])
-
+            commentstuff=cursor.execute(f''' SELECT * FROM Comments WHERE CommentID IN (select CommentID from AnimeComment where AnimeID='{anime_id}') ''').fetchall()
+            print(commentstuff)
+            for i in range(len(commentstuff)):
+                for j in range(len(commentstuff[i])):
+                    item=QTableWidgetItem(str(commentstuff[i][j]))
+                    print(i,j,item.text())
+                    self.comments_and_details_screen.tableWidget.setItem(i,j,item)
 
 
 
