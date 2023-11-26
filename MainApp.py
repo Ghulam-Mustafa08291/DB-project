@@ -46,6 +46,7 @@ class UI(QtWidgets.QMainWindow):
         self.Login_Button.clicked.connect(self.after_logging_in)
         self.SignUpButton.clicked.connect(self.load_signup_screen)
         self.Anime_name="" #for storing the anime name being enterd in the home screen
+       
         
         
         
@@ -105,7 +106,20 @@ class UI(QtWidgets.QMainWindow):
         self.SignUpScreen=QtWidgets.QMainWindow()
         uic.loadUi("SignUp.ui",self.SignUpScreen)
         self.SignUpScreen.show()
-       
+        self.SignUpScreen.pushButton_3.clicked.connect(self.signup_register) #when the register button is clicked
+        
+
+
+   
+
+    def signup_register(self):
+        username=self.SignUpScreen.lineEdit.text()
+        password=self.SignUpScreen.lineEdit_2.text()
+        access_level=self.SignUpScreen.lineEdit_3.text()
+        user_id=23
+        cursor.execute('INSERT INTO Users (UserID, Username, U_Password, AccessLevel) VALUES (?,?, ?,?)', (user_id,username, password,access_level))
+        connection.commit()
+        print("user added!")
 
 
 
