@@ -1,7 +1,7 @@
 from PyQt6 import QtWidgets, uic,QtGui, QtCore
 import sys
 import pyodbc
-from PyQt6.QtWidgets import QTableWidgetItem
+from PyQt6.QtWidgets import QTableWidgetItem,QMessageBox
 
 #connecting the database below
 server="LAPTOP-4OMLOR40"
@@ -116,10 +116,23 @@ class UI(QtWidgets.QMainWindow):
         username=self.SignUpScreen.lineEdit.text()
         password=self.SignUpScreen.lineEdit_2.text()
         access_level=self.SignUpScreen.lineEdit_3.text()
-        user_id=23
+        max_user_id_query = cursor.execute('SELECT MAX(UserID) FROM Users')
+        max_user_id = max_user_id_query.fetchone()[0]  # Get the maximum UserID
+
+    # Increment the UserID for the new user
+        if max_user_id is not None:
+            user_id = max_user_id + 1  # Increment the maximum UserID by 1 for the new user
+        else:
+            user_id = 1  # If no users exist, start from 1
         cursor.execute('INSERT INTO Users (UserID, Username, U_Password, AccessLevel) VALUES (?,?, ?,?)', (user_id,username, password,access_level))
         connection.commit()
-        print("user added!")
+
+
+        msg_box = QMessageBox()
+        msg_box.setWindowTitle('Confirmation')
+        msg_box.setText('User added!')
+        msg_box.exec()
+        #print("user added!")
 
 
 
