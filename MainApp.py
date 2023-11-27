@@ -53,16 +53,36 @@ class UI(QtWidgets.QMainWindow):
         
 
     def after_logging_in(self): #to load the ui when we press the login Button, will show the home menu
-        self.home_screen=QtWidgets.QMainWindow() #window is initialized to none in the init function
-        uic.loadUi("HOME.ui",self.home_screen)
-        self.home_screen.show()
-        self.home_screen.pushButton_5.clicked.connect(self.after_clicking_updates) #when the updates button is clicked on the screen'
-        self.home_screen.pushButton.clicked.connect(self.search_by_name) #when the search button is clicked on the home screen
-        self.home_screen.pushButton_3.clicked.connect(self.show_login_screen)
-        self.home_screen.pushButton_6.clicked.connect(self.load_MyContent_screen)
-        self.home_screen.pushButton_8.clicked.connect(self.load_Comments_and_details)
-        # self.home_screen.tableWidget.itemSelectionChanged.connect(self.on_item_selected)
-        self.home_screen.pushButton_8.clicked.connect(self.on_item_selected)
+        entered_username=self.lineEdit.text()
+        entered_password=self.lineEdit_2.text()
+        cursor.execute(f"SELECT Username FROM Users WHERE Username = '{entered_username}' AND U_password = '{entered_password}'")    
+        rows=cursor.fetchall()
+        if len(rows)==0:
+            msg_box = QMessageBox()
+            msg_box.setWindowTitle('Login failed')
+            msg_box.setText('no user found!')
+            msg_box.exec()
+        else:
+          
+            print(rows)
+            self.home_screen=QtWidgets.QMainWindow() #window is initialized to none in the init function
+            uic.loadUi("HOME.ui",self.home_screen)
+            self.home_screen.show()
+            self.home_screen.pushButton_5.clicked.connect(self.after_clicking_updates) #when the updates button is clicked on the screen'
+            self.home_screen.pushButton.clicked.connect(self.search_by_name) #when the search button is clicked on the home screen
+            self.home_screen.pushButton_3.clicked.connect(self.show_login_screen)
+            self.home_screen.pushButton_6.clicked.connect(self.load_MyContent_screen)
+            self.home_screen.pushButton_8.clicked.connect(self.load_Comments_and_details)
+            # self.home_screen.tableWidget.itemSelectionChanged.connect(self.on_item_selected)
+            self.home_screen.pushButton_8.clicked.connect(self.on_item_selected)
+
+        
+
+
+
+
+
+        
         
             
 
