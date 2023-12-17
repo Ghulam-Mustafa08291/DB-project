@@ -43,6 +43,7 @@ class UI(QtWidgets.QMainWindow):
         self.SignUpScreen=None #initializing the window
         self.MyContentScreen=None
         self.comments_and_details_screen=None
+        self.AccountCredentialchangescreen=None
         self.Login_Button.clicked.connect(self.after_logging_in)
         self.SignUpButton.clicked.connect(self.load_signup_screen)
         self.Anime_name="" #for storing the anime name being enterd in the home screen
@@ -72,6 +73,7 @@ class UI(QtWidgets.QMainWindow):
             self.home_screen.pushButton.clicked.connect(self.search_by_name) #when the search button is clicked on the home screen
             self.home_screen.pushButton_3.clicked.connect(self.show_login_screen)
             self.home_screen.pushButton_6.clicked.connect(self.load_MyContent_screen)
+            self.home_screen.pushButton_7.clicked.connect(self.load_change_credential_screen) #for changing the account settings
             self.home_screen.pushButton_8.clicked.connect(self.load_Comments_and_details)
             # self.home_screen.tableWidget.itemSelectionChanged.connect(self.on_item_selected)
             self.home_screen.pushButton_8.clicked.connect(self.on_item_selected)
@@ -131,12 +133,64 @@ class UI(QtWidgets.QMainWindow):
 
 
    
+    def load_change_credential_screen(self):
+        self.AccountCredentialchangescreen=QtWidgets.QMainWindow()
+        uic.loadUi("AccountSettings.ui",self.AccountCredentialchangescreen)
+        self.AccountCredentialchangescreen.show()
+        self.AccountCredentialchangescreen.pushButton.clicked.connect(self.change_password)
+        self.AccountCredentialchangescreen.pushButton_2.clicked.connect(self.Change_username)
+
+    def change_password(self):
+        current_password=self.lineEdit_2.text()
+        entered_current_password=self.AccountCredentialchangescreen.lineEdit.text()
+        entered_new_password=self.AccountCredentialchangescreen.lineEdit_2.text()
+
+        if entered_current_password!=current_password:
+            msg_box = QMessageBox()
+            msg_box.setWindowTitle('ERROR')
+            msg_box.setText('Password does not match with your current password!!')
+            msg_box.exec()
+
+        else:
+            cursor.execute(f''' update Users set U_Password='{entered_new_password}'
+                           where U_Password='{entered_current_password}'  ''')
+            msg_box = QMessageBox()
+            msg_box.setWindowTitle('DONE!')
+            msg_box.setText('Password changed successfully!')
+            msg_box.exec()
+            connection.commit()
+
+
+
+    def Change_username(self):
+        current_username=self.lineEdit.text()
+        entered_current_username=self.AccountCredentialchangescreen.lineEdit_4.text()
+        entered_new_username=self.AccountCredentialchangescreen.lineEdit_3.text()
+
+        if entered_current_username!=current_username:
+            msg_box = QMessageBox()
+            msg_box.setWindowTitle('ERROR')
+            msg_box.setText('Username does not match with your current username!')
+            msg_box.exec()
+
+        else:
+            cursor.execute(f''' update Users set Username='{entered_new_username}'
+                           where Username='{entered_current_username}'  ''')
+            msg_box = QMessageBox()
+            msg_box.setWindowTitle('DONE!')
+            msg_box.setText('Username changed successfully!')
+            msg_box.exec()
+            connection.commit()
+
+        print("your really wanto to change the current username: ",current_username," ?")
+       # entered_password=self.lineEdit_2.text()
+
 
     def signup_register(self):
         username=self.SignUpScreen.lineEdit.text()
         password=self.SignUpScreen.lineEdit_2.text()
         access_level=self.SignUpScreen.lineEdit_3.text()
-        max_user_id_query = cursor.execute('SELECT MAX(UserID) FROM Users')
+        max_user_id_query = cursor.execute('SELECT MAX(UserID) FROM Users') #will later add 1 to it for assigning new Id everytime
         max_user_id = max_user_id_query.fetchone()[0]  # Get the maximum UserID
 
     # Increment the UserID for the new user
