@@ -95,6 +95,7 @@ class UI(QtWidgets.QMainWindow):
         self.update_screen.show()
         self.update_screen.pushButton_3.clicked.connect(self.show_login_screen)
         self.update_screen.pushButton_6.clicked.connect(self.load_MyContent_screen)
+        self.update_screen.pushButton_7.clicked.connect(self.load_change_credential_screen)
         self.update_screen.pushButton_8.clicked.connect(self.after_logging_in)
 
     def search_by_name(self): #for searching through the name in the HOME screen ui

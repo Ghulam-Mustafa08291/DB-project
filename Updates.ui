@@ -45,12 +45,12 @@
      <rect>
       <x>10</x>
       <y>310</y>
-      <width>101</width>
+      <width>121</width>
       <height>28</height>
      </rect>
     </property>
     <property name="text">
-     <string>Account Settings</string>
+     <string>Change Crednetials</string>
     </property>
    </widget>
    <widget class="QPushButton" name="pushButton_8">
