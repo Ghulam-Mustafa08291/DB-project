@@ -209,7 +209,38 @@ class UI(QtWidgets.QMainWindow):
         msg_box.exec()
         #print("user added!")
 
+    def add_comment_to_both(self):
+        
+        anime_id=self.comments_and_details_screen.lineEdit_2.text()
+        comment=self.comments_and_details_screen.textEdit.toPlainText()
+        manga_id=self.comments_and_details_screen.lineEdit_4.text()
+        series_name=self.comments_and_details_screen.lineEdit.text()
+        series_id=cursor.execute(f'''  select SeriesID from Series where SeriesName = '{series_name}' ''')
+        series_id=series_id.fetchone()[0]
+        entered_username=self.lineEdit.text()
+        user_id=cursor.execute(f'''select UserID from Users where Username= '{entered_username}' ''')
+        user_id=user_id.fetchone()[0]
+        print ("the series name: ",series_name, " and the series id is: ",series_id)
+        print(comment)
+        cursor.execute("SELECT MAX(CommentID) FROM Comments")
+        comment_id_result = cursor.fetchone()
+        if comment_id_result[0] is not None:
+            comment_id = comment_id_result[0] + 1
+        else:
+            comment_id = 1
+        # comment_id=cursor.execute("select max(CommentID) from Comments")
+        # comment_id=comment_id.fetchone()[0]
+        # comment_id+=1
+        print("new comment id is: ",comment_id)
+        print("userid is: ",user_id)
+        print("manga id is: ",manga_id)
+        cursor.execute(f''' INSERT INTO Comments(CommentID,UserId,ReplytoID,CommentText) VALUES (?,?,NULL,?)''',(comment_id,user_id,comment))
+        connection.commit()        
+        cursor.execute(f''' INSERT INTO MangaComment(CommentID,MangaID,SeriesID) VALUES(?,?,?)''',(comment_id,manga_id,series_id))
+        connection.commit()
+        cursor.execute(f''' INSERT INTO AnimeComment(CommentID,AnimeID,SeriesID,SeasonNo) VALUES(?,?,?,?)''',(comment_id,anime_id,series_id,1))
 
+        connection.commit()
 
     def load_MyContent_screen(self): #loading the fan content screen
         self.MyContentScreen=QtWidgets.QMainWindow()
@@ -220,6 +251,70 @@ class UI(QtWidgets.QMainWindow):
         self.comments_and_details_screen=QtWidgets.QMainWindow()
         uic.loadUi("Comments.ui",self.comments_and_details_screen)
         self.comments_and_details_screen.show()
+        self.comments_and_details_screen.pushButton.clicked.connect(self.add_comment_to_anime)
+        self.comments_and_details_screen.pushButton_2.clicked.connect(self.add_comment_to_manga)
+        self.comments_and_details_screen.pushButton_3.clicked.connect(self.add_comment_to_both)
+
+    def add_comment_to_manga(self):
+        comment=self.comments_and_details_screen.textEdit.toPlainText()
+        manga_id=self.comments_and_details_screen.lineEdit_4.text()
+        series_name=self.comments_and_details_screen.lineEdit.text()
+        series_id=cursor.execute(f'''  select SeriesID from Series where SeriesName = '{series_name}' ''')
+        series_id=series_id.fetchone()[0]
+        entered_username=self.lineEdit.text()
+        user_id=cursor.execute(f'''select UserID from Users where Username= '{entered_username}' ''')
+        user_id=user_id.fetchone()[0]
+        print ("the series name: ",series_name, " and the series id is: ",series_id)
+        print(comment)
+        cursor.execute("SELECT MAX(CommentID) FROM Comments")
+        comment_id_result = cursor.fetchone()
+        if comment_id_result[0] is not None:
+            comment_id = comment_id_result[0] + 1
+        else:
+            comment_id = 1
+        # comment_id=cursor.execute("select max(CommentID) from Comments")
+        # comment_id=comment_id.fetchone()[0]
+        # comment_id+=1
+        print("new comment id is: ",comment_id)
+        print("userid is: ",user_id)
+        print("manga id is: ",manga_id)
+        cursor.execute(f''' INSERT INTO Comments(CommentID,UserId,ReplytoID,CommentText) VALUES (?,?,NULL,?)''',(comment_id,user_id,comment))
+        connection.commit()        
+        cursor.execute(f''' INSERT INTO MangaComment(CommentID,MangaID,SeriesID) VALUES(?,?,?)''',(comment_id,manga_id,series_id))
+        
+        connection.commit()
+
+
+    def add_comment_to_anime(self):
+        comment=self.comments_and_details_screen.textEdit.toPlainText()
+        anime_id=self.comments_and_details_screen.lineEdit_2.text()
+        series_name=self.comments_and_details_screen.lineEdit.text()
+        series_id=cursor.execute(f'''  select SeriesID from Series where SeriesName = '{series_name}' ''')
+        series_id=series_id.fetchone()[0]
+        entered_username=self.lineEdit.text()
+        user_id=cursor.execute(f'''select UserID from Users where Username= '{entered_username}' ''')
+        user_id=user_id.fetchone()[0]
+        print ("the series name: ",series_name, " and the series id is: ",series_id)
+        print(comment)
+        cursor.execute("SELECT MAX(CommentID) FROM Comments")
+        comment_id_result = cursor.fetchone()
+        if comment_id_result[0] is not None:
+            comment_id = comment_id_result[0] + 1
+        else:
+            comment_id = 1
+        # comment_id=cursor.execute("select max(CommentID) from Comments")
+        # comment_id=comment_id.fetchone()[0]
+        # comment_id+=1
+        print("new comment id is: ",comment_id)
+        print("userid is: ",user_id)
+        print("anime id is: ",anime_id)
+        cursor.execute(f''' INSERT INTO Comments(CommentID,UserId,ReplytoID,CommentText) VALUES (?,?,NULL,?)''',(comment_id,user_id,comment))
+        connection.commit()        
+        cursor.execute(f''' INSERT INTO AnimeComment(CommentID,AnimeID,SeriesID,SeasonNo) VALUES(?,?,?,?)''',(comment_id,anime_id,series_id,1))
+        
+        connection.commit()
+
+
 
     def on_item_selected(self):
         # Get the selected item(s)

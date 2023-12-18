@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>800</width>
-    <height>600</height>
+    <height>601</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -18,7 +18,7 @@
     <property name="geometry">
      <rect>
       <x>90</x>
-      <y>160</y>
+      <y>130</y>
       <width>521</width>
       <height>291</height>
      </rect>
@@ -192,27 +192,53 @@
      <string>Manga ID</string>
     </property>
    </widget>
-   <widget class="QLabel" name="label_5">
+   <widget class="QTextEdit" name="textEdit">
     <property name="geometry">
      <rect>
-      <x>280</x>
-      <y>110</y>
-      <width>101</width>
-      <height>20</height>
+      <x>100</x>
+      <y>450</y>
+      <width>501</width>
+      <height>81</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton">
+    <property name="geometry">
+     <rect>
+      <x>620</x>
+      <y>510</y>
+      <width>121</width>
+      <height>28</height>
      </rect>
     </property>
     <property name="text">
-     <string>Episode nuimber</string>
+     <string>Comment to Anime</string>
     </property>
    </widget>
-   <widget class="QLineEdit" name="lineEdit_5">
+   <widget class="QPushButton" name="pushButton_2">
     <property name="geometry">
      <rect>
-      <x>400</x>
-      <y>110</y>
-      <width>113</width>
-      <height>22</height>
+      <x>620</x>
+      <y>470</y>
+      <width>121</width>
+      <height>28</height>
      </rect>
+    </property>
+    <property name="text">
+     <string>Comment to Manga</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_3">
+    <property name="geometry">
+     <rect>
+      <x>620</x>
+      <y>430</y>
+      <width>121</width>
+      <height>28</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Comment to Both</string>
     </property>
    </widget>
   </widget>
