@@ -5,7 +5,7 @@ from PyQt6.QtWidgets import QTableWidgetItem,QMessageBox
 
 #connecting the database below
 server="LAPTOP-4OMLOR40"
-database="AnimeManagement"
+database="AnimeDatabase"
 use_windows_authentication=True
 username=""
 password=""
